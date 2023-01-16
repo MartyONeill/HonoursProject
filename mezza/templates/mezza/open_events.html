@@ -1,0 +1,146 @@
+{% extends 'mezza/base.html' %}
+
+{% block content %}
+
+    <!-- Shows all the open events, acts as the find work page,
+     shows map and allows search funcitonality  -->
+
+	<center>
+
+        <br/>
+    {% if user.is_authenticated%} 
+
+    
+    <div class="row">
+
+        <h1>Find Work!</h1>
+        <br/>
+
+        <!-- Form used for recieving search location and surroundin area, along with search button
+        searches db with the credentials and results are displayed on the map -->
+        <form class="container" method="GET">
+
+            <div class="row">
+                <input type="text" name="search" value="{{autofill_loc}}" class="form-control me-2" placeholder="Search Location"> 
+            </div>
+
+            <br/>
+
+            <div class="row">
+
+                <div class="col">
+                    <div class="card form-control me-2">Search Area Size</div>
+                </div>
+
+                <div class="col">
+                    <input type="number" name="distance" value="{{autofill_thresh}}" min="0.5" value="2" step="0.1" class="form-control me-2" placeholder="Surrounding Area Size">
+                </div>
+                <div class="col">
+                    <input type="submit" value="Submit" class="btn btn-success"/>
+                </div>
+            </div>
+        </form> 
+        
+    </div> <br/>
+
+    <!-- Display map returned by view -->
+    <div class="row">
+        <div class="col d-flex justify-content-center">
+            <div class="card rounded" style="border-radius: 50%; width: 50rem;">
+                {{ map|safe }}
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+    
+        <!-- First column returns all recommended venues in green -->
+
+        <div class="col">
+
+            <br/>
+
+            <div class="card border-success text-success">
+                <h1>Our Recommendations:</h1>
+            </div>
+            
+            <br/>
+            
+            {% for event in recommended_events_list %}
+
+            <div class="card border-success text-success">
+                <div class="card-header  ">
+                    <h4><strong>{{event.venue}}</strong></h4>
+                </div>
+
+                <div class="card-body border-sucess">
+                    <h5 class="card-title">{{event}}</h5>
+                    <p class="card-text">
+                        
+                        <strong>{{event.description}}</strong> <br/>
+                        <strong>Date: {{event.event_date}}</strong> <br/>
+                        <strong>Pays: £{{event.wage}}</strong> <br/>
+
+                    </p>	
+                </div>
+
+                <div class="card-footer text-muted">
+                    <a href="{% url 'event-page' event.id %}" 
+                    class = "btn btn-outline-success btn-sm"> View </a>
+                </div>
+            </div>
+
+            <br/>
+            {% endfor %}
+        </div>
+        <br/>
+
+        <!-- second column returns all other events in blue -->
+
+        <div class="col">
+
+            <br/>
+
+            <div class="card border-primary text-primary">
+                <h1>Open Events</h1>
+            </div>
+
+            <br/>
+            {% for event in open_events_list %}
+
+            <div class="card border-primary text-primary">
+                <div class="card-header  ">
+                    <h4><strong>{{event.venue}}</strong></h4>
+                </div>
+
+                <div class="card-body border-primary">
+                    <h5 class="card-title">{{event}}</h5>
+                    <p class="card-text">
+                        
+                        
+                        <strong>{{event.description}}</strong> <br/>
+                        <strong>Date: {{event.event_date}}</strong> <br/>
+                        <strong>Pays: £{{event.wage}}</strong> <br/>
+
+                    </p>	
+                </div>
+
+                <div class="card-footer text-muted">
+                    <a href="{% url 'event-page' event.id %}" 
+                    class = "btn btn-outline-primary btn-sm"> View </a>
+                </div>
+            </div>
+    
+            <br/>
+            {% endfor %}
+        {% endif %}
+        </div>
+
+    </div>
+    </center>
+
+    <br/><br/><br/><br/>
+    
+{% endblock %}
+
+

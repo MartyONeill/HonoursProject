@@ -1,0 +1,41 @@
+{% extends 'mezza/base.html' %}
+
+{% block content %}
+
+	<!-- Create and event page, recieves form from view, updates
+	the model accordingly -->
+
+	<center>
+
+		<h1>Create an Event</h1>
+	
+		<br/><br/>
+		{% if user.is_authenticated and user.is_venue %}
+
+			<div class="form-group">
+				<form action="" method=POST>
+					{% csrf_token %}
+
+					{{ form.as_p }} 
+
+					<br/>
+					<br/>
+					<input type="submit" value="Create Openning"
+					class="btn btn-info">
+				</form>
+			</div>
+
+			<br/><br/>
+
+		{% else %}
+			<h1>Sorry you must be logged in to view this page</h1>
+
+			<br/>
+			<strong><a class="nav-link" href="{% url 'login' %}"> Login Here</a> </strong>
+
+		{% endif %}
+
+  
+
+	</center>
+{% endblock %}

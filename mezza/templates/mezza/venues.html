@@ -1,0 +1,81 @@
+{% extends 'mezza/base.html' %}
+
+{% block content %}
+	<center>
+
+		<h1>All Venues</h1>
+	
+        <div class="row">
+
+            <form class="container" method="GET">
+
+                <div class="row">
+                    <input type="text" name="search" value="{{autofill_loc}}" class="form-control me-2" placeholder="Search Location"> 
+                </div>
+    
+                <br/>
+    
+                <div class="row">
+    
+                    <div class="col">
+                        <div class="card form-control me-2">Search Area Size</div>
+                    </div>
+    
+                    <div class="col">
+                        <input type="number" name="thresh" min="0.5" value="{{autofill_thresh}}" step="0.1" class="form-control me-2" placeholder="Surrounding Area Size">
+                    </div>
+                    <div class="col">
+                        <input type="submit" value="Submit" class="btn btn-success"/>
+                    </div>
+
+                </div>
+
+            </form> 
+			
+		</div> 
+        
+        <br/>
+
+        <div class="row">
+            <div class="col d-flex justify-content-center">
+                <div class="card rounded" style="border-radius: 50%; width: 50rem;">
+                    {{ map|safe }}
+                </div>
+            </div>
+        </div>
+
+        <br/>
+
+
+   
+    {% for venue in venues %}   
+        <div class="card border-primary text-primary">
+            <div class="card-header border-primary text-primary">
+                <strong>{{venue}}</strong>
+            </div>
+
+            <div class="card-body border-primary text-primary">
+                <!-- <h5 class="card-title">{{venue}}</h5> -->
+                <p class="card-text">
+
+                    {{venue.description}}<br/>
+                    
+                </p>	
+            </div>
+
+            <div class="card-footer text-muted border-primary text-primary">
+                <a href="{% url 'profile-venue' venue.user.id %}" 
+                class = "btn btn-outline-primary btn-sm"> View </a>
+            </div>
+        </div>
+     
+
+        <br/>
+        {% endfor %}
+    
+
+    </center>
+
+    <br/><br/><br/><br/>
+    
+{% endblock %}

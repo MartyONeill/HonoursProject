@@ -1,0 +1,170 @@
+{% extends 'mezza/base.html' %}
+
+{% block content %}
+
+    <!-- All events the talent is either  -->
+
+	<center>
+
+	<h1>My Events</h1>
+
+	<br/>
+
+
+    
+    <div class="row">
+
+        <div class="col">
+        
+            <div class="card">
+                <div class="card-body">
+                    <h2>Applications</h2>
+                </div>				
+            </div>
+
+            <br/>
+        {% for event in talent_applications%}
+          <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">{{event.name}}</h5>
+                <!--<p class="card-text">{{event.description}}</p>-->
+                <p class="card-text">{{event.event_date}}</p>
+
+                <p><a href="{% url 'event-page' event.id %}" 
+                    class = "btn btn-outline-primary btn-sm"> View Event</a></p>
+            </div>
+          </div>
+          <br/>
+        {% endfor %}
+        </div>
+
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <h2>Event Offers</h2>
+                </div>				
+            </div>
+
+            <br/>
+        {% for event in talent_offers %}
+          <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">{{event.name}}</h5>
+                <!--<p class="card-text">{{event.description}}</p>-->
+                <p class="card-text">{{event.event_date}}</p>
+                <strong>You have been offered the job! </strong>
+                <br/>
+<br/>
+                
+                <div class="row">
+                    <div class="col">
+                        <a href="{% url 'event-page' event.id %}" 
+                            class = "btn btn-outline-primary btn-sm"> View Event</a>
+                    </div>
+                    <div class="col">
+                        <a class = "btn btn-outline-success btn-sm mb-1"
+                            data-bs-toggle="modal" data-bs-target="#acceptModal"> Accept</a>
+                        
+                        <a class = "btn btn-outline-danger btn-sm "
+                        data-bs-toggle="modal" data-bs-target="#declineModal"> Decline</a>
+                    </div>
+                </div>
+
+            </div>
+
+          </div>
+
+
+          <!-- pop up modal for accepting the offer -->
+
+        <div class="modal fade" id="acceptModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Confirmation of Job</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    </div>
+
+                    <div class="modal-body">
+                        
+                        <h3>Are you sure you want to accept the job of <strong>{{event}}</strong>?</h3>
+                        <br/>
+                        <strong>Wage: {{event.wage}}</strong>
+                    </div>
+                    
+                    <div class="modal-footer " >
+                        
+                        <button type="button" class="btn btn-light mr-auto" data-bs-dismiss="modal">Close</button>
+                        <a class="btn btn-success" href="{% url 'talent-accepted' user.id  event.id %}">Accept Job</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+
+          <br/>
+        {% endfor %}
+        </div>
+
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <h2>Confirmed Events</h2>
+                </div>				
+            </div>
+
+            <br/>
+        {% for event in talent_events %}
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">{{event.name}}</h5>
+              <!--<p class="card-text">{{event.description}}</p>-->
+              <p class="card-text">{{event.event_date}}</p>
+              <strong><p class="card-text">{{event.talent}}</p></strong>
+              <br/>
+             <a href="{% url 'event-page' event.id %}" 
+                class = "btn btn-outline-primary btn-sm"> View Event</a>
+            </div>
+          </div>
+        
+          <br/>
+        {% endfor %}
+        </div>
+
+    </div>
+
+
+    <!-- {% if user.is_authenticated%} 
+        {% for event in talent_applications %}
+
+        <div class="card">
+            <div class="card-header">
+                <strong>{{event}}</strong>
+            </div>
+
+            <div class="card-body">
+                <h5 class="card-title">At {{event.venue}}</h5>
+                <p class="card-text">
+                    <strong>{{event.description}}</strong> <br/>
+                    <strong>Date: {{event.event_date}}</strong> <br/>
+                    <strong>Pays: £{{event.wage}}</strong> <br/> 
+                </p>	
+            </div>
+
+            <div class="card-footer text-muted">
+                <a href="{% url 'event-page' event.id %}" 
+                class = "btn btn-outline-primary btn-sm"> View </a>
+            </div>
+        </div>
+     
+        <br/>
+        {% endfor %}
+    {% endif %} -->
+
+    </center>
+
+    <br/><br/><br/><br/>
+    
+{% endblock %}

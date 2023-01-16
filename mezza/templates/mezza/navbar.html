@@ -1,0 +1,71 @@
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #a2d4f7;">
+    <div class="container-fluid">
+  
+
+      <h1><a class="navbar-brand" href="{% url 'home' %}">Mezzanine</a></h1>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'home' %}">Home</a>
+          </li>   
+
+          <!-- Show differnet links depending on what type of user is signed in  -->
+
+          {% if user.is_authenticated %}
+            
+              {% if user.is_authenticated and user.is_talent %}
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'logout' %}">
+                  Logout</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'profile-talent' user.id %}">
+                  Talent Profile</a>
+                </li>
+                  
+              {% elif user.is_authenticated and user.is_venue %}
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'logout' %}">
+                  Logout</a>
+                </li>
+
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'profile-venue' user.id %}">
+                  Venue Profile</a>
+                </li>
+
+              {% else %}
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'logout' %}">
+                  Logout</a>
+                </li>
+    
+                <li class="nav-item">
+                  <a class="nav-link" href="#">
+                  User Profile</a>
+                </li>
+              {% endif %}
+
+          {% else %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'login' %}">
+              Login</a>
+            </li>     
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'register' %}">
+              Register</a>
+            </li>  
+            
+          {% endif %}
+  
+         
+        
+      </div>
+    </div>
+  </nav>

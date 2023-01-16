@@ -1,0 +1,104 @@
+{% extends 'mezza/base.html' %}
+
+{% block content %}
+	<center>
+
+		<h1>Events for {{user.venue}} {{event.venue}}</h1>
+	
+        <br/>
+
+        <div class="row">
+
+			<!-- Event -->
+			<div class="col-sm-6">
+			
+				<div class="card">
+					<div class="card-body">
+						<h2>Open Events</h2>
+					</div>				
+				</div>
+
+				<br/>
+
+			{% for event in open_events %}
+			
+			
+			  <div class="card">
+				<div class="card-body">
+					<h5 class="card-title">{{event.name}}</h5>
+					<!--<p class="card-text">{{event.description}}</p>-->
+					<p class="card-text">{{event.event_date}}</p>
+
+					<p><a href="{% url 'event-page' event.id %}" 
+						class = "btn btn-outline-primary btn-sm"> View Event</a></p>
+				</div>
+
+				<div class="card-footer">
+					Applications: {{event.applicants.all|length}}
+					<br/>
+					Offers Given: {{event.offers.all|length}}
+				</div>
+
+			  </div>
+			  <br/>
+			{% endfor %}
+			</div>
+
+			<!-- Event Offers
+			<div class="col-sm-6">
+				<div class="card">
+					<div class="card-body">
+						<h2>Event Offers</h2>
+					</div>				
+				</div>
+
+				<br/>
+			{% for event in offered_events %}
+			  <div class="card">
+				<div class="card-body">
+				  <h5 class="card-title">{{event.name}}</h5>
+				  !--<p class="card-text">{{event.description}}</p>--
+				  <p class="card-text">{{event.event_date}}</p>
+				  <strong><p class="card-text">{{event.talent}}</p></strong>
+				  <br/>
+				 <a href="{% url 'event-page' event.id %}" 
+					class = "btn btn-outline-primary btn-sm"> View Event</a>
+				</div>
+			  </div>
+			
+			  <br/>
+			{% endfor %}
+			</div> -->
+
+			<!--Confirmed Event Jobs -->
+			<div class="col-sm-6">
+				<div class="card">
+					<div class="card-body">
+						<h2>Closed Events</h2>
+					</div>				
+				</div>
+
+				<br/>
+			{% for event in closed_events %}
+			  <div class="card">
+				<div class="card-body">
+				  <h5 class="card-title">{{event.name}}</h5>
+				  <!--<p class="card-text">{{event.description}}</p>-->
+				  <p class="card-text">{{event.event_date}}</p>
+				  <strong><p class="card-text">{{event.talent}}</p></strong>
+				  <br/>
+				 <a href="{% url 'event-page' event.id %}" 
+					class = "btn btn-outline-primary btn-sm"> View Event</a>
+				</div>
+			  </div>
+			
+			  <br/>
+			{% endfor %}
+			</div>
+		</div>
+
+    </center>
+
+    <br/><br/><br/><br/>
+    
+{% endblock %}

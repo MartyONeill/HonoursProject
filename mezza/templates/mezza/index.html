@@ -1,0 +1,107 @@
+{% extends 'mezza/base.html' %}
+
+{% block content %}
+
+	<!-- Home page, showing different buttons per user that signs in -->
+
+	<center>
+
+	<div class="container">
+		<!-- <h1>Welcome to Mezzanine!</h1><br/> -->
+
+		<div class="row">
+			<!-- <br/> -->
+			<!-- <br/>
+			<br/> -->
+
+			<!-- If user signed in as talent, show links to findwork, all venues, and profile page -->
+			{% if user.is_authenticated and user.is_talent  %}
+				<h2>Thanks for signing in, {{user.username}}</h2><br/><br/>
+	
+				<div class="row">
+					<div class="col">
+						<a href="{% url 'open-events' %}"> <button type="button" class="btn btn-outline-primary btn-lg" style="background-color:white;">Find Work!</button></a>		
+					</div>
+					<div class="col">
+						<a href="{% url 'all-venues' %}"><button type="button" class="btn btn-outline-primary btn-lg" style="background-color:white;">Venues</button></a>
+					</div>
+					<div class="col">
+						<a href="{% url 'profile-talent' user.id %}"><button type="button" class="btn btn-outline-primary btn-lg" style="background-color:white;">Profile</button></a>
+					</div>
+				</div> 
+
+			<br/>
+			<!-- <br/> -->
+
+			<!-- If user signed in as venue, show links to create event, my events, profile page -->
+			{% elif user.is_authenticated and user.is_venue  %}
+
+				<h1>Thanks for signing in as {{user.venue.name}}</h1><br/>
+
+				<div class="row">
+					<div class="col">
+						<a href="{% url 'create-event' %}"> <button type="button" class="btn btn-outline-primary btn-lg" style="background-color:white;">Create Event</button></a>		
+					</div>
+					<div class="col">
+						<a href="{% url 'venue-events' user.id %}"><button type="button" class="btn btn-outline-primary btn-lg" style="background-color:white;">My Events</button></a>
+					</div>
+					<div class="col">
+						<a href="{% url 'profile-venue' user.id %}"><button type="button" class="btn btn-outline-primary btn-lg" style="background-color:white;">Profile</button></a>
+					</div>
+				</div> 
+				
+
+			<br/>
+		
+			<!-- If user is not signed in, show  buttons to register or login-->
+			{% else %}		
+
+				<h2>Welcome to Mezzanine!</h2>
+
+				<br/>
+
+				<div class="container">
+					<div class="row justify-content-md-center">
+						<div class="col col-lg-2">
+							<a href="{% url 'register' %}"> <button type="button" class="btn btn-outline-primary btn-lg" style="background-color:white;">Register </button> </a>
+						</div>				
+						<div class="col col-lg-2">
+							<a href="{% url 'login' %}"> <button type="button" class="btn btn-outline-primary btn-lg" style="background-color:white;">Login</button></a>
+						</div>
+					</div>
+				</div>
+			{% endif %}
+		</div>
+
+		<br/>
+
+		<!-- Search bar, when searched, the location and all venues are shown-->
+		<div class="row">
+			
+			<form class="d-flex" method="GET">
+				<input type="text" name="search" class="form-control me-2" placeholder="Search Location">				
+				<input type="submit" value="Submit" class="btn btn-success"/>
+			</form> 	
+			
+			
+		</div> <br/>
+
+		<!-- The map, shows the whole world, aestetic purposes mianly but can still be interacted with -->
+		<div class="row">
+			<div class="col d-flex justify-content-center">
+				<div class="card" style="width: 50rem">
+					{{ map|safe }}
+				</div>
+			</div>
+		</div>
+
+		<br/>
+	
+		
+	</div>
+	</center>
+
+
+
+
+{% endblock %}

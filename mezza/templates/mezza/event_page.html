@@ -1,0 +1,213 @@
+{% extends 'mezza/base.html' %}
+
+{% block content %}
+
+	<!-- LArge page with alot of functionality 
+	- if venue and signed in
+		- edit 
+		- view applications
+			- drop down box that populates all applicants 
+			- buttons for viewing, accepting, rejecting talent
+			- popup modals for 'are you sure' once decisions are made
+		- link to venue page 
+	- if talent is signed in, general info
+
+	Each section is self descriping due to the template tag names used
+	-->
+
+	<center>
+
+	<div class="card">
+		<div class="card-header">
+			<strong>{{event}}</strong>
+		</div>
+
+		<div class="card-body">
+			<h5 class="card-title">{{event.venue}}</h5>
+			<p class="card-text">
+
+				<strong>{{event.description}}</strong> <br/> <br/>
+				<strong>Date: {{event.event_date}}</strong> <br/>  <br/>
+				<strong>Pays: £{{event.wage}}</strong> <br/>  <br/>
+				Pictures here <br/>  <br/>
+				location info <br/>  <br/>
+
+				Hosted by : <a href="{% url 'profile-venue' event.venue.user.id %}">{{event.venue}}</a> <br/> <br/>
+				
+				{% if event.talent %}
+
+					Performing : <a href="#">{{event.talent}}</a>
+					<br/>
+					<br/>
+		
+
+				{% else %}
+			</p>	
+
+					{% if user.is_talent and event.is_open %}
+							
+					<button type="button" class="btn btn-outline-success btn-lg" data-bs-toggle="modal" data-bs-target="#applicantModal">
+						Apply
+					</button>
+						
+
+						<!--Pop up for talent applying -->
+			
+				<div class="modal fade" id="applicantModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Are you sure you want to apply for this position?</h5>
+
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+
+						</div>
+
+						<div class="modal-body">
+
+							{{event.id}}
+							{{user.id}}
+
+							<h3>Are you sure you want to apply for this role: <strong>{{event}}</strong>?</h3>
+							<br/>
+							<strong>Wage: {{event.wage}}</strong>
+						</div>
+						
+						<div class="modal-footer " >
+							
+							<button type="button" class="btn btn-light mr-auto" data-bs-dismiss="modal">Close</button>
+							<a class="btn btn-success" href="{% url 'application-success' event.id %}">Apply</a>
+							
+						</div>
+					</div>
+					</div>
+				</div>
+
+
+
+					{% elif event.venue.user.id == user.venue.user.id %}
+						
+						<a href="{% url 'update-event' event.id %}" class = "btn btn-outline-danger btn-lg">Edit Event</a>
+						
+						<a class="btn btn-outline-primary btn-lg" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" >
+							View Applicants
+						</a>
+
+						<!-- Table showing applicants -->
+
+						<div class="collapse" id="collapseExample">
+							<table class="table table-hover ">
+								{% for applicant in event.applicants.all %}
+								<br/>
+								<tr>
+									<td>
+										<strong>{{applicant}}</strong>
+									</td>		
+									<td align="right">
+			
+										<a href="{% url 'profile-talent' applicant.user.id %}"
+										class = "btn btn-outline-primary btn-sm">View</a>
+			
+										<!-- Button trigger modal -->
+										<button type="button" class="btn btn-outline-success btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
+											Accept
+										</button>
+										
+										<button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#rejectModal">
+											Reject
+										</button>								
+									</td>								
+								</tr>	
+								<!-- <br/> -->
+									<!-- Pop up for accepting talent -->
+
+									<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+										<div class="modal-dialog" role="document">
+											<div class="modal-content">
+												<div class="modal-header">
+												<h5 class="modal-title" id="exampleModalLabel">Confirmation of offer</h5>
+												<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+													<span aria-hidden="true">&times;</span>
+												</button>
+												</div>
+
+												<div class="modal-body">
+													
+													<h3>Are you sure you want to offer <strong>{{applicant}}</strong> the job?</h3>
+													<br/>
+													<strong>Wage: {{event.wage}}</strong>
+												</div>
+												
+												<div class="modal-footer " >
+													
+													<button type="button" class="btn btn-light mr-auto" data-bs-dismiss="modal">Close</button>
+													<a class="btn btn-success" href="{% url 'talent-offered' applicant.user.id event.id %}">Offer Job</a>
+													
+												</div>
+											</div>
+										</div>
+									</div>
+									
+									<!-- Pop up for rejecting talent -->
+
+									<div class="modal fade" id="rejectModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+										<div class="modal-dialog" role="document">
+										<div class="modal-content">
+											<div class="modal-header">
+											<h5 class="modal-title" id="exampleModalLabel">Rejection of application</h5>
+											<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+											</div>
+
+											<div class="modal-body">
+												<h3>Are you sure you want to reject <strong>{{applicant}}</strong> application for the the job?</h3>
+												<br/>
+												<strong>Wage: {{event.wage}}</strong>
+											</div>
+											
+											<div class="modal-footer">
+												<button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+												<button type="button" class="btn btn-danger">Rejection</button>
+											</div>
+										</div>
+										</div>
+									</div>
+								{% endfor %}
+							</table>
+
+							<table class="table table-hover ">
+								{% for applicant in event.offers.all %}
+								
+								<tr>
+									<td>
+										<strong>{{applicant}}</strong>
+									</td>		
+									<td align="right">
+			
+										<a href="{% url 'profile-talent' applicant.user.id %}"
+										class = "btn btn-outline-primary btn-sm">View</a>
+			
+										<strong>Job Offered - awaiting response</strong>								
+									</td>								
+								</tr>	
+								{% endfor %}
+							</table>
+
+							<!-- </table> -->
+						</div>	
+								<!-- S -->
+							<!--</table>-->
+						</div>
+					{% endif %}
+				</div>
+			{% endif %}
+		</div>
+	</center>
+
+
+
+
+{% endblock %}
