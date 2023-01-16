@@ -1,0 +1,99 @@
+{% extends 'mezza/base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+	<!-- Pre-Register page, user is redirected here to select what accout type they want to sign up for
+	either Talent or Venue -->
+
+	<center>
+
+		<div class="container">
+
+			<div class="row justify-content-md-center">
+
+				<!-- <div class="card"> -->
+
+					<div class="col">
+						<!-- <div class="card"> -->
+							<br/>
+							<div class="card" style="border-style: solid; border-color: #79c1f5;">
+								<h3>Register as Venue</h3>
+							</div>
+
+							<br/>
+							
+							<div class="card">
+								<img src="{% static 'images/venue_party.jpg' %}" class="card-img-top" alt="venue" style="height: 12rem;">
+							</div>
+
+							<br/>
+
+							<div class="card" style="height: 12rem; border-style: solid; border-color: #79c1f5;">
+
+								<div class="card-body">
+									Register your venue with Mezzanine today! 
+									An easy way to start events and find musicians to fill open positions.
+									Host all of your events on one page, join today!
+								</div>
+								 
+								
+							</div>
+							
+							<br/>
+
+							<a href="{% url 'register-venue' %}">
+								<button type="button" class="btn btn-light" 
+								style="background-color: #79c1f5;">Register as a Venue</button>
+							</a>
+
+							<br/>
+
+					</div>
+				
+			  
+					<div class="col">
+
+
+							<br/>
+							<div class="card" style="border-style: solid; border-color: #fc7c7c;">
+								<h3>Register as Talent</h3>
+							</div>
+							<br/>
+
+							<div class="card" >
+								<img src="{% static 'images/musician.jpg' %}" class="card-img-top" alt="musician" style="height: 12rem;">
+							</div>
+
+							<br/>
+
+							<div class="card" style="height: 12rem; border-style: solid; border-color: #fc7c7c;">
+
+								<div class="card-body">
+									Professional musician, band memeber or just perform for fun?
+									Sign up for Mezzanine today and find local gigs that are looking for talent just like you!
+								</div>
+								
+							</div>
+
+							<br/>
+
+							<a href="{% url 'register-talent' %}">
+								<button type="button" class="btn btn-light"
+								style="background-color: #fc7c7c;">Register as Talent</button>
+							</a>
+
+							<br/>
+
+					</div>
+					
+					<br/>
+					<br/>
+					<br/>
+
+			</div>
+		</div>
+
+	</center>
+{% endblock %}

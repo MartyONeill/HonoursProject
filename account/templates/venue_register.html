@@ -1,0 +1,27 @@
+{% extends 'mezza/base.html' %}
+
+{% block content %}
+
+	<!--Registering as a venue, accepts form from view and 
+	creates user input areas-->
+
+	<center>
+
+		<h1>Register as a Venue!</h1>
+	
+		<div class="card">
+			<div class="card-body">
+				<form action="{% url 'register-venue' %}" method=POST nonvalidate>
+					{% csrf_token %}
+					{{form.as_p}}
+					<input type="submit" value="Submit"
+					class="btn btn-primary">
+				</form>
+			</div>
+		  </div>
+
+		<br/><br/><br/>
+
+	</center>
+{% endblock %}
+

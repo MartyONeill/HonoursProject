@@ -1,0 +1,102 @@
+{% extends 'mezza/base.html' %}
+
+{% block content %}
+
+	<!-- Talent profile page, showing: name, address, location and
+		links to all upcoming events. Talent can view applciations if signed in-->
+
+<style>
+	card{
+		border-style: solid; 
+		border-color: #79c1f5;
+	}
+</style>
+
+
+	<center>
+
+		<div class = "card border-warning">
+			<h1>{{talent}}</h1>
+		</div>
+
+		<br/>
+
+		{% if user.is_authenticated and user.is_talent  %}
+			<a href="{% url 'talent-events' talent.user.id %}"><button type="button" class="btn btn-outline-primary btn" style="background-color:white;" >My Applications</button></a>
+			<a href="{% url 'update-talent' talent.user.id %}"><button type="button" class="btn btn-outline-primary btn" style="background-color:white;">Update Account</button></a>
+		{% endif %}
+
+		<br/>
+		<br/>
+
+		<div class="row">
+			<div class="col">
+	
+			  <div class="card border-warning">
+				<div class="card-body">
+				  
+				  <p class="card-text">{{talent.description}}</p>
+				  
+				</div>
+			  </div>
+			</div>
+
+			<div class="col">
+
+				<div class="card border-warning">
+					<div class="card-body">
+					  
+					  <p class="card-text">{{talent.location}}</p>
+					  
+					</div>
+				  </div>
+
+				{% if talent.tag_select %}
+				<br/>
+				  <div class="card border-warning">
+					<div class="card-body">					  
+					  <p class="card-text">{{talent.tag_select}}</p>  
+					</div>
+				  </div>
+				{% endif %}
+
+				  <br/>
+
+				<div class="card border-warning text-warning">
+					<h4><strong>Upcoming Events</strong></h4>
+				  </div>
+				
+				  <br/>
+
+				{% for event in upcoming_events%}
+				<div class="card border-warning ">
+					<div class="card-header  ">
+						<strong>{{event}}</strong>
+					</div>
+	
+					<div class="card-body border-warning">
+						<p class="card-text">          
+							{{event.description}} <br/>
+							<strong></strong>{{event.event_date}}</strong> <br/>
+	
+						</p>	
+					</div>
+	
+					<div class="card-footer text-muted">
+						<a href="{% url 'event-page' event.id %}" 
+						class = "btn btn-outline-warning btn-sm"> View </a>
+					</div>
+				</div>
+				<br/>
+				{% endfor %}
+
+
+				  
+			</div>
+
+		</div>
+
+		<br/><br/>
+
+	</center>
+{% endblock %}

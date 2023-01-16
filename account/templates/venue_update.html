@@ -1,0 +1,26 @@
+{% extends 'mezza/base.html' %}
+
+{% block content %}
+
+	<!--Update venue page, taking in form from view and using it
+	to create the text input for user-->
+
+	<center>
+
+		<h1>Update Venue!</h1>
+	
+		<div class="card">
+			<div class="card-body">
+				<form action="" method=POST nonvalidate>
+					{% csrf_token %}
+					{{form.as_p}}
+					<input type="submit" value="Submit"
+					class="btn btn-primary">
+				</form>
+			</div>
+		  </div>
+
+		<br/><br/><br/>
+
+	</center>
+{% endblock %}

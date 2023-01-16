@@ -1,0 +1,116 @@
+{% extends 'mezza/base.html' %}
+
+
+{% block content %}
+
+	<!-- Venue profile showing upcomign events, location information (with map)
+	descriptionm, with links for the Venue to create events and view applications-->
+
+	<center>
+
+		<div class = "card border-success">
+			<h1>{{venue.name}}</h1>
+		</div>
+
+		<br/>
+			
+	
+		{% if user.is_authenticated and user.is_venue  %}
+			<a href="{% url 'create-event' %}"><button type="button" class="btn btn-outline-primary btn" style="background-color:white;" >Create an Event!</button></a>
+			<!-- <br/>
+			<br/> -->
+			<a href="{% url 'venue-events' venue.user.id %}"><button type="button" class="btn btn-outline-primary btn" style="background-color:white;">My Events</button></a>
+			<a href="{% url 'update-venue' venue.user.id %}"><button type="button" class="btn btn-outline-primary btn" style="background-color:white;">Update Account</button></a>
+		{% endif %}
+	
+		<br/>
+		<br/>
+
+	<div class="row">
+		<div class="col-sm-6">
+
+		  <div class="card border-success">
+			<div class="card-body">
+			  <!-- <h5 class="card-title">Special title treatment</h5> -->
+			  <p class="card-text">{{venue.description}}</p>
+			  <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+			</div>
+		  </div>
+
+
+		{% if venue.tag_select%}
+			<br/>
+			<div class="card border-success">
+				<div class="card-body">
+					<p class="card-text">{{venue.tag_select}}</p>
+				</div>
+			</div>
+		{% endif %}
+
+		  <br/>
+
+		<div class="card border-success">
+			<div class="card-body">
+				
+				<!-- Display tags -->
+				{% for tag in venue.account_tags.all %}
+					<p class="card-text">{{tag}}</p>
+				{% endfor %}
+			</div>
+		</div>
+
+		</div>
+
+		<div class="col-sm-6">
+
+		  	<div class="card border-success">
+				{{ map|safe }}
+		  	</div>
+
+		  	<br/>
+
+			<div class="card border-success">
+				<div class="card-body">
+					<strong>
+					{{venue.address}} <br/>
+					{{venue.postcode}}
+					</strong>
+				</div>
+			</div>
+
+		  	<br/>
+
+		  	<div class = "card border-success text-success">
+				<h4><strong>Upcoming Events</strong></h4> 
+			</div>
+
+			<br/>
+
+		  	{% for event in events %}
+
+				<div class="card border-success text-success">
+					<div class="card-header  ">
+						<strong>{{event}}</strong>
+					</div>
+
+					<div class="card-body border-sucess">
+						<p class="card-text">          
+							{{event.description}} <br/>
+							<strong></strong>{{event.event_date}}</strong> <br/>
+
+						</p>	
+					</div>
+
+					<div class="card-footer text-muted">
+						<a href="{% url 'event-page' event.id %}" 
+						class = "btn btn-outline-success btn-sm"> View </a>
+					</div>
+				</div>
+
+				<br/>
+            {% endfor %}
+			</div>
+		</div>
+	  </center>
+
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends 'mezza/base.html' %}
+
+{% block content %}
+
+	<!-- Talent registration page, accepting form from view and outputting the 
+		text-input fields  -->
+
+	<center>
+
+		<h1>Register as a talent!</h1>
+	
+		<div class="card">
+			<div class="card-body">
+				<form action="{% url 'register-talent' %}" method=POST nonvalidate>
+					{% csrf_token %}
+					{{form.as_p}}
+					<input type="submit" value="Submit"
+					class="btn btn-primary">
+				</form>
+			</div>
+		  </div>
+
+		<br/><br/><br/>
+
+	</center>
+{% endblock %}
